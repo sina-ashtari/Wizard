@@ -42,17 +42,7 @@ fun Wise(){
         }
     }
 }
-@Composable
-fun Wise2(){
-    Box(modifier = Modifier.fillMaxSize()){
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = Txt.appName)
-            Button(onClick = { /*TODO*/ }) {
-                Text(Txt.wiseBtn)
-            }
-        }
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
