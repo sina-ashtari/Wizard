@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,12 +40,15 @@ import kotlinx.coroutines.delay
 import xyz.sina.wizard.R
 import xyz.sina.wizard.utils.Txt
 
+
+val cocomatFont = FontFamily(
+    Font(R.font.cocomat)
+)
+
 @Composable
 fun Wise() {
 
-    val cocomatFont = FontFamily(
-        Font(R.font.cocomat)
-    )
+
 
     var visible by remember { mutableStateOf(false) }
     var secondVisible by remember { mutableStateOf(false) }
@@ -113,10 +117,42 @@ fun Wise() {
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(Txt.info, style = TextStyle(fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(202, 240, 248)))
+                    val text = listOf(
+                        "hello",
+                        "wizard is tired"
+                    )
+                    TypeWriter(text)
 
 
                 }
             }
         }
     }
+}
+
+
+@Composable
+fun TypeWriter(text : List<String>) {
+
+    var textIndex by remember { mutableStateOf(0) }
+    var textToDisplay by remember { mutableStateOf("") }
+
+    LaunchedEffect (key1 = text){
+        delay(2400)
+        while(textIndex < text.size){
+
+            text[textIndex].forEachIndexed { characterIndex, _ ->
+
+                textToDisplay = text[textIndex].substring(startIndex = 0, endIndex = characterIndex + 1)
+                delay(200)
+
+            }
+
+            textIndex = (textIndex + 1) % text.size
+            delay(1000)
+        }
+
+    }
+    Text(text = textToDisplay, style = TextStyle(fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(0, 180, 216)))
+
 }
