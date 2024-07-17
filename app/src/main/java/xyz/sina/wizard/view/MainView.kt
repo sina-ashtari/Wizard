@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -127,7 +128,7 @@ fun WiseView(viewModel: WiseViewModel = viewModel(factory = WiseViewModelFactory
                         )
                     }
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(Txt.info, style = TextStyle(fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(202, 240, 248)))
+                    Text(Txt.info, style = TextStyle(fontFamily = cocomatFont ,fontSize = 30.sp, fontWeight = FontWeight.SemiBold, color = Color(202, 240, 248)))
                     val text = wise?.let {
                         listOf(
                             it.content,
@@ -139,7 +140,6 @@ fun WiseView(viewModel: WiseViewModel = viewModel(factory = WiseViewModelFactory
                     }
                     TypeWriter(text)
 
-
                 }
             }
         }
@@ -150,7 +150,7 @@ fun WiseView(viewModel: WiseViewModel = viewModel(factory = WiseViewModelFactory
 @Composable
 fun TypeWriter(text : List<String>) {
 
-    var textIndex by remember { mutableStateOf(0) }
+    var textIndex by remember { mutableIntStateOf(0) }
     var textToDisplay by remember { mutableStateOf("") }
 
     LaunchedEffect (key1 = text){
@@ -173,6 +173,7 @@ fun TypeWriter(text : List<String>) {
 }
 
 
+@Suppress("UNCHECKED_CAST")
 class WiseViewModelFactory: ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WiseViewModel::class.java)) {
