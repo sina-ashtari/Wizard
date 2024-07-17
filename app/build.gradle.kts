@@ -66,7 +66,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
     // Retrofit
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)

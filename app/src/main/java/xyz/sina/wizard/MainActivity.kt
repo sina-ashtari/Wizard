@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import xyz.sina.wizard.ui.theme.WizardTheme
-import xyz.sina.wizard.view.Wise
+import xyz.sina.wizard.view.WiseView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WizardTheme {
-                Wise()
+                WiseView()
             }
         }
     }

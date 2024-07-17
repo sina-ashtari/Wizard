@@ -16,9 +16,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,15 +32,19 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.substring
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import xyz.sina.wizard.R
+import xyz.sina.wizard.model.DI.Injection
 import xyz.sina.wizard.utils.Txt
+import xyz.sina.wizard.viewModel.WiseViewModel
+
 
 
 val cocomatFont = FontFamily(
@@ -46,8 +52,13 @@ val cocomatFont = FontFamily(
 )
 
 @Composable
-fun Wise() {
+fun WiseView(viewModel: WiseViewModel = viewModel(factory = WiseViewModelFactory() )) {
 
+    val wise by viewModel.wise.collectAsState()
+
+    LaunchedEffect (Unit) {
+        viewModel.fetchWise()
+    }
 
 
     var visible by remember { mutableStateOf(false) }
@@ -74,7 +85,7 @@ fun Wise() {
             Text(
 
                 text = Txt.appName,
-                style = TextStyle(fontFamily = cocomatFont ,fontSize = 40.sp, fontWeight = FontWeight.SemiBold, color = Color(3, 4, 94)),
+                style = TextStyle(fontFamily = cocomatFont ,fontSize = 60.sp, fontWeight = FontWeight.SemiBold, color = Color(3, 4, 94)),
                 modifier = Modifier.clickable { visible = !visible }
 
             )
@@ -112,15 +123,20 @@ fun Wise() {
                     ) {
                         Text(
                             text = Txt.appName,
-                            style = TextStyle(fontFamily = cocomatFont ,fontSize = 40.sp, fontWeight = FontWeight.SemiBold, color = Color(144, 224, 239))
+                            style = TextStyle(fontFamily = cocomatFont ,fontSize = 60.sp, fontWeight = FontWeight.SemiBold, color = Color(144, 224, 239))
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     Text(Txt.info, style = TextStyle(fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(202, 240, 248)))
-                    val text = listOf(
-                        "hello",
-                        "wizard is tired"
-                    )
+                    val text = wise?.let {
+                        listOf(
+                            it.content,
+                            )
+                    }?: run{
+                        listOf(
+                            "Wizard is tired :("
+                        )
+                    }
                     TypeWriter(text)
 
 
@@ -147,12 +163,22 @@ fun TypeWriter(text : List<String>) {
                 delay(200)
 
             }
+            textIndex ++
 
-            textIndex = (textIndex + 1) % text.size
-            delay(1000)
         }
 
     }
-    Text(text = textToDisplay, style = TextStyle(fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(0, 180, 216)))
+    Text(modifier  = Modifier.padding(16.dp),text = textToDisplay, style = TextStyle(textAlign = TextAlign.Center ,fontFamily = cocomatFont ,fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = Color(0, 180, 216)))
+
+}
+
+
+class WiseViewModelFactory: ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(WiseViewModel::class.java)) {
+            return Injection.provideWiseViewModel() as T
+        }
+        throw IllegalArgumentException("UNKNOWN VIEWMODEL")
+    }
 
 }

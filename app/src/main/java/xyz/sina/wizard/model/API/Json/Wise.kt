@@ -1,6 +1,7 @@
 package xyz.sina.wizard.model.API.Json
 
-data class Message(
+data class Wise(
+    val _id: String,
     val content: String,
-    val role: String
+    val author: String
 )
