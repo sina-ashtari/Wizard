@@ -9,7 +9,7 @@ interface ApiService {
 
     @GET("quotes/random")
 
-    suspend fun getWise() : Wise?
+    suspend fun getWise() : Wise
 
 
     companion object{
