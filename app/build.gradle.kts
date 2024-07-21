@@ -22,7 +22,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -67,8 +68,16 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.runtime.livedata)
     // Retrofit
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
 
+    // Hilt
+    implementation (libs.hilt.android)
+    annotationProcessor (libs.hilt.compiler)
+    androidTestImplementation  (libs.hilt.android.testing)
+    androidTestAnnotationProcessor (libs.hilt.compiler)
+    testImplementation (libs.hilt.android.testing)
+    testAnnotationProcessor (libs.hilt.compiler)
 }

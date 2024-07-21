@@ -13,7 +13,6 @@ class WiseViewModel(private val repo: WiseRepo):ViewModel (){
     val wise : StateFlow<Wise?> = _wise
 
     private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage
 
     fun fetchWise(){
         viewModelScope.launch {
